@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vidur</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="header">
+    <div class="logo">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M6 10 Q10 5 14 10 Q10 15 6 10Z" fill="currentColor" opacity="0.7"/>
+      </svg>
+      <span>Vidur</span>
+    </div>
+    <button class="settings-btn" id="openSettings" title="Settings">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 11a4 4 0 110-8 4 4 0 010 8z" fill="currentColor" opacity="0.4"/>
+        <circle cx="8" cy="8" r="2" fill="currentColor"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- No API key state -->
+  <div id="noKeyState" class="state hidden">
+    <div class="empty-icon">🔑</div>
+    <p>Add an API key to start redesigning sites.</p>
+    <button class="btn btn-primary" id="goToSettings">Open Settings</button>
+  </div>
+
+  <!-- Main state -->
+  <div id="mainState" class="state hidden">
+    <div class="site-header">
+      <span class="domain" id="domainLabel"></span>
+      <label class="toggle" title="Enable/disable Vidur on this site">
+        <input type="checkbox" id="siteToggle">
+        <span class="track"><span class="thumb"></span></span>
+      </label>
+    </div>
+
+    <div id="designPanel">
+      <!-- Existing design -->
+      <div id="existingDesign" class="existing-design hidden">
+        <div class="design-meta">
+          <span class="design-label">Current design</span>
+          <div class="design-actions">
+            <button class="btn-icon" id="deleteDesign" title="Remove design">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M2 3.5h10M5.5 3.5V2.5h3v1M4 3.5l.667 8h4.666L10 3.5H4z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <p class="design-prompt" id="savedPrompt"></p>
+      </div>
+
+      <!-- Redesign form -->
+      <div class="form-group">
+        <label for="promptInput">Redesign prompt</label>
+        <textarea id="promptInput" placeholder="e.g. Make this look like a dark terminal with green monospace text" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="referenceUrl">Reference site <span class="optional">(optional)</span></label>
+        <input type="url" id="referenceUrl" placeholder="https://example.com">
+      </div>
+
+      <button class="btn btn-primary btn-full" id="redesignBtn">
+        <span id="btnLabel">Redesign</span>
+        <span id="btnSpinner" class="spinner hidden"></span>
+      </button>
+
+      <p class="error-msg hidden" id="errorMsg"></p>
+    </div>
+  </div>
+
+  <script src="popup.js" type="module"></script>
+</body>
+</html>
