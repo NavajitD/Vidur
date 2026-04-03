@@ -15,9 +15,10 @@ Rules you MUST follow:
 5. Target elements using existing tag names, classes, and IDs listed in the page profile.
 6. Prefix ALL selectors with [data-vidur-active] to scope your styles (e.g. [data-vidur-active] body { ... }).
 7. Use CSS custom properties on [data-vidur-active] for all repeated colors and fonts.
-8. Ensure text always remains readable — never make text invisible or the same color as its background.
-9. Keep output under 50KB.
-10. Be thorough: cover background, text, links, headers, nav, cards, buttons, inputs, and footer.`;
+8. Use !important on background-color, color, font-family, border-color, and fill properties — sites have high-specificity rules that will silently win without it.
+9. Ensure text always remains readable — never make text invisible or the same color as its background.
+10. Keep output under 50KB.
+11. Be thorough: cover body, main content area, headings, paragraphs, links, nav, sidebar, buttons, inputs, tables, and footer.`;
 
 function buildUserPrompt({ pageProfile, userInstruction, referenceStyle }) {
   const parts = ['=== Current Page Structure ===', pageProfile, ''];
