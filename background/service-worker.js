@@ -73,7 +73,7 @@ async function handleMessage(message, sender) {
         referenceStyle = await fetchReferenceStyle(referenceUrl);
       }
 
-      const css = await routeToLLM({
+      const { css, summary } = await routeToLLM({
         provider:        settings.provider,
         model:           settings.model,
         apiKey,
@@ -89,6 +89,7 @@ async function handleMessage(message, sender) {
       await saveSiteDesign(domain, {
         enabled:      true,
         css,
+        summary:      summary || null,
         promptUsed:   prompt,
         referenceUrl: referenceUrl || null,
       });
@@ -106,7 +107,7 @@ async function handleMessage(message, sender) {
         chrome.tabs.sendMessage(tabId, { type: MSG.APPLY_CSS, css }).catch(() => {});
       }
 
-      return { css };
+      return { css, summary };
     }
 
     case MSG.GET_SAVED_DESIGN: {

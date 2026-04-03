@@ -25,7 +25,7 @@ export const DEFAULT_MODELS = {
   anthropic:  'claude-sonnet-4-6',
   openai:     'gpt-4o',
   gemini:     'gemini-1.5-pro',
-  openrouter: 'meta-llama/llama-3.3-70b-instruct',
+  openrouter: 'qwen/qwen-2.5-coder-32b-instruct',
   groq:       'llama-3.3-70b-versatile',
   together:   'Qwen/Qwen2.5-Coder-32B-Instruct',
   cloudflare: '@cf/meta/llama-3.3-70b-instruct-fp8-fast',

@@ -7,16 +7,17 @@ import { callCloudflare }         from './cloudflare-client.js';
 const SYSTEM_PROMPT = `You are a CSS-only visual redesign engine for a browser extension called Vidur.
 
 Rules you MUST follow:
-1. Output ONLY valid CSS. No explanations, no markdown, no code fences.
-2. Do NOT modify HTML structure or content.
-3. Do NOT use JavaScript or @import.
-4. Do NOT reference external resources via url() — no external images or fonts unless from Google Fonts @import at the very top.
-5. Target elements using existing tag names, classes, and IDs from the page.
-6. Prefix all selectors with [data-vidur-active] to scope your styles (e.g. [data-vidur-active] body { ... }).
-7. Output CSS in priority order: layout → color/background → typography → borders/shadows → animations.
-8. Use CSS custom properties on :root for all colors and fonts to make the design cohesive.
-9. Ensure text remains readable — never make text invisible or unreadable.
-10. Keep output under 50KB.`;
+1. Start with a single CSS comment: /* Summary: <one sentence describing what you changed> */
+   If you cannot fully achieve the requested look with CSS alone, say so in this comment (e.g. "/* Summary: Partial terminal theme — black background and green text applied; full terminal layout not achievable via CSS only */").
+2. After the summary comment, output ONLY valid CSS. No other explanations, no markdown, no code fences.
+3. Do NOT modify HTML structure or content.
+4. Do NOT use JavaScript. You MAY use a single @import at the very top (before the summary comment) for Google Fonts only.
+5. Target elements using existing tag names, classes, and IDs listed in the page profile.
+6. Prefix ALL selectors with [data-vidur-active] to scope your styles (e.g. [data-vidur-active] body { ... }).
+7. Use CSS custom properties on [data-vidur-active] for all repeated colors and fonts.
+8. Ensure text always remains readable — never make text invisible or the same color as its background.
+9. Keep output under 50KB.
+10. Be thorough: cover background, text, links, headers, nav, cards, buttons, inputs, and footer.`;
 
 function buildUserPrompt({ pageProfile, userInstruction, referenceStyle }) {
   const parts = ['=== Current Page Structure ===', pageProfile, ''];
@@ -29,6 +30,11 @@ function buildUserPrompt({ pageProfile, userInstruction, referenceStyle }) {
   parts.push('', 'Now output the CSS redesign. CSS only, no explanations.');
 
   return parts.join('\n');
+}
+
+export function extractSummary(css) {
+  const m = css.match(/\/\*\s*Summary:\s*(.+?)\s*\*\//i);
+  return m ? m[1].trim() : null;
 }
 
 function sanitizeCss(raw) {
@@ -89,5 +95,6 @@ export async function routeToLLM({ provider, model, apiKey, pageProfile, userIns
     });
   }
 
-  return sanitizeCss(raw);
+  const css = sanitizeCss(raw);
+  return { css, summary: extractSummary(raw) };
 }

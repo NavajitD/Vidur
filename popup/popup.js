@@ -70,6 +70,13 @@ function renderDesignState() {
   if (hasDesign) {
     $('existingDesign').classList.remove('hidden');
     $('savedPrompt').textContent = currentDesign.promptUsed || 'Custom design applied';
+    const summaryEl = $('designSummary');
+    if (currentDesign.summary) {
+      summaryEl.textContent = currentDesign.summary;
+      summaryEl.classList.remove('hidden');
+    } else {
+      summaryEl.classList.add('hidden');
+    }
   } else {
     $('existingDesign').classList.add('hidden');
   }

@@ -145,6 +145,18 @@ body {
   text-align: left;
 }
 
+.design-summary {
+  font-size: 11px;
+  color: var(--accent);
+  font-style: italic;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-align: left;
+}
+
 .btn-icon {
   background: none;
   border: none;
