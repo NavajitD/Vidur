@@ -69,7 +69,18 @@ async function handleKeySave(provider) {
     statusEl.className = 'key-status set';
   }
 
-  flashConfirm(`Key saved for ${PROVIDERS[provider]?.label || provider}`);
+  // Auto-switch active provider if the current one has no key
+  const [settings, allKeys] = await Promise.all([getSettings(), getKeys()]);
+  if (!allKeys[settings.provider]) {
+    const newSettings = { ...settings, provider, model: DEFAULT_MODELS[provider] || settings.model };
+    await saveSettings(newSettings);
+    $('providerSelect').value = provider;
+    $('modelInput').value = newSettings.model;
+    renderModelSuggestions(provider);
+    flashConfirm(`Key saved · Active provider set to ${PROVIDERS[provider]?.label || provider}`);
+  } else {
+    flashConfirm(`Key saved for ${PROVIDERS[provider]?.label || provider}`);
+  }
 }
 
 async function handleKeyClear(provider) {
@@ -206,11 +217,11 @@ function renderSavedDesigns(sites) {
 
 // ─── Local provider health check ─────────────────────────────────────────────
 async function checkLocalProviders() {
-  checkLocal('ollama',   'http://localhost:11434/api/tags', 'ollamaDot',    'ollamaStatusText');
-  checkLocal('lmstudio', 'http://localhost:1234/v1/models', 'lmstudioDot', 'lmstudioStatusText');
+  checkLocal('http://localhost:11434/api/tags', 'ollamaDot',    'ollamaStatusText');
+  checkLocal('http://localhost:1234/v1/models', 'lmstudioDot', 'lmstudioStatusText');
 }
 
-async function checkLocal(provider, url, dotId, textId) {
+async function checkLocal(url, dotId, textId) {
   try {
     const res = await fetch(url, { signal: AbortSignal.timeout(2000) });
     if (res.ok) {
