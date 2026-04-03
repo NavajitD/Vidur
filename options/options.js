@@ -11,7 +11,6 @@ async function init() {
   renderProviderSelect(settings);
   renderModelSection(settings);
   renderSavedDesigns(sites);
-  checkLocalProviders();
 
   $('autoApplyToggle').checked = settings.autoApply ?? true;
 
@@ -128,7 +127,6 @@ function renderProviderSelect(settings) {
   const groups = {
     'Proprietary':          ['anthropic', 'openai', 'gemini'],
     'Open Source · Cloud':  ['openrouter', 'groq', 'together', 'cloudflare'],
-    'Local · No key':       ['ollama', 'lmstudio'],
   };
 
   for (const [groupLabel, providers] of Object.entries(groups)) {
@@ -213,27 +211,6 @@ function renderSavedDesigns(sites) {
 
     container.appendChild(item);
   });
-}
-
-// ─── Local provider health check ─────────────────────────────────────────────
-async function checkLocalProviders() {
-  checkLocal('http://localhost:11434/api/tags', 'ollamaDot',    'ollamaStatusText');
-  checkLocal('http://localhost:1234/v1/models', 'lmstudioDot', 'lmstudioStatusText');
-}
-
-async function checkLocal(url, dotId, textId) {
-  try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(2000) });
-    if (res.ok) {
-      $(dotId).className = 'dot online';
-      $(textId).textContent = 'Running';
-    } else {
-      throw new Error();
-    }
-  } catch {
-    $(dotId).className = 'dot offline';
-    $(textId).textContent = 'Not detected';
-  }
 }
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────

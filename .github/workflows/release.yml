@@ -27,6 +27,7 @@ jobs:
             --exclude "*.zip" \
             --exclude "node_modules/*" \
             --exclude ".DS_Store"
+          cp vidur-${{ steps.version.outputs.VERSION }}.zip vidur.zip
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -35,17 +36,18 @@ jobs:
           body: |
             ## Vidur ${{ steps.version.outputs.VERSION }}
 
-            AI-powered visual redesign for any website — without changing content.
+            Visual redesign of any website with AI — without changing content.
 
-            ### Install (Chrome / Edge)
-            1. Download `vidur-${{ steps.version.outputs.VERSION }}.zip` below
-            2. Unzip it
-            3. Go to `chrome://extensions` → Enable **Developer mode**
-            4. Click **Load unpacked** → select the unzipped folder
+            ### Install (Chrome / Edge / Brave)
+            1. Download `vidur.zip` below and unzip it
+            2. Go to `chrome://extensions` → Enable **Developer mode**
+            3. Click **Load unpacked** → select the unzipped `vidur` folder
 
             ### Install (Firefox)
             1. Go to `about:debugging#/runtime/this-firefox`
             2. Click **Load Temporary Add-on** → select `manifest.json` from the unzipped folder
-          files: vidur-${{ steps.version.outputs.VERSION }}.zip
+          files: |
+            vidur-${{ steps.version.outputs.VERSION }}.zip
+            vidur.zip
           draft: false
           prerelease: false

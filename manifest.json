@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Vidur",
   "version": "1.0.0",
-  "description": "Redesign any website visually using AI — without changing content.",
+  "description": "Visual redesign of any website with AI",
 
   "permissions": [
     "storage",

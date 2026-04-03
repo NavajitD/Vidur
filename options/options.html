@@ -11,12 +11,13 @@
     <header class="page-header">
       <div class="logo">
         <svg width="24" height="24" viewBox="0 0 20 20" fill="none">
-          <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5"/>
-          <path d="M6 10 Q10 5 14 10 Q10 15 6 10Z" fill="currentColor" opacity="0.7"/>
+          <circle cx="10" cy="10" r="9" stroke="currentColor" stroke-width="1.5" fill="none"/>
+          <path d="M6 10 Q10 5 14 10 Q10 15 6 10Z" fill="white"/>
+          <circle cx="10" cy="10" r="2.2" fill="#f59e0b"/>
         </svg>
         <span>Vidur</span>
       </div>
-      <p class="tagline">AI-powered visual redesign for any website</p>
+      <p class="tagline">Visual redesign of any website with AI</p>
     </header>
 
     <main>
@@ -28,12 +29,15 @@
           Keys are only read inside the extension's background process — never exposed to web pages.
         </p>
 
-        <!-- Proprietary -->
-        <div class="provider-group">
-          <div class="group-label">
+        <!-- Proprietary — collapsible -->
+        <details class="provider-group" open>
+          <summary class="group-header">
             <span class="group-tag proprietary">Proprietary</span>
             <span class="group-hint">Best quality · Paid per token</span>
-          </div>
+            <svg class="group-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
 
           <div class="provider-row" data-provider="anthropic">
             <div class="provider-info">
@@ -82,14 +86,17 @@
             </div>
             <span class="key-status" data-provider="gemini"></span>
           </div>
-        </div>
+        </details>
 
-        <!-- Open Source — Cloud -->
-        <div class="provider-group">
-          <div class="group-label">
+        <!-- Open Source — Cloud — collapsible -->
+        <details class="provider-group" open>
+          <summary class="group-header">
             <span class="group-tag oss-cloud">Open Source · Cloud</span>
             <span class="group-hint">Open weights models · Paid per token</span>
-          </div>
+            <svg class="group-chevron" width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M3 5l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
 
           <div class="provider-row" data-provider="openrouter">
             <div class="provider-info">
@@ -155,62 +162,32 @@
             <span class="key-status" data-provider="cloudflare"></span>
             <p class="provider-note">Format: <code>accountId|apiToken</code> (find both in your Cloudflare dashboard)</p>
           </div>
-        </div>
-
-        <!-- Local -->
-        <div class="provider-group">
-          <div class="group-label">
-            <span class="group-tag local">Local · No key needed</span>
-            <span class="group-hint">Runs on your machine · Free · Private</span>
-          </div>
-
-          <div class="provider-row" data-provider="ollama">
-            <div class="provider-info">
-              <div>
-                <div class="provider-name">Ollama</div>
-                <div class="provider-models">llama3.3 · qwen2.5-coder · mistral</div>
-              </div>
-            </div>
-            <div class="local-status" id="ollamaStatus">
-              <span class="dot" id="ollamaDot"></span>
-              <span id="ollamaStatusText">Checking…</span>
-            </div>
-          </div>
-
-          <div class="provider-row" data-provider="lmstudio">
-            <div class="provider-info">
-              <div>
-                <div class="provider-name">LM Studio</div>
-                <div class="provider-models">Any locally loaded model</div>
-              </div>
-            </div>
-            <div class="local-status" id="lmstudioStatus">
-              <span class="dot" id="lmstudioDot"></span>
-              <span id="lmstudioStatusText">Checking…</span>
-            </div>
-          </div>
-        </div>
+        </details>
       </section>
 
       <!-- ── Active Provider ── -->
       <section class="card">
-        <h2>Active Provider & Model</h2>
+        <h2>Active Provider &amp; Model</h2>
         <p class="section-desc">Choose which provider and model Vidur uses for redesigns.</p>
 
         <div class="form-row">
           <label for="providerSelect">Provider</label>
-          <select id="providerSelect"></select>
+          <div class="select-wrap">
+            <select id="providerSelect"></select>
+          </div>
         </div>
 
         <div class="form-row">
           <label for="modelInput">Model</label>
-          <input type="text" id="modelInput" placeholder="Model name">
+          <div class="select-wrap">
+            <input type="text" id="modelInput" placeholder="Model name">
+          </div>
           <div class="model-suggestions" id="modelSuggestions"></div>
         </div>
 
         <div class="form-row toggle-row">
           <div>
-            <label>Auto-apply on page load</label>
+            <label class="toggle-row-label">Auto-apply on page load</label>
             <p class="form-hint">Automatically apply your saved design when you visit a site</p>
           </div>
           <label class="toggle">
@@ -232,9 +209,9 @@
         </div>
       </section>
 
-      <!-- ── Security notice ── -->
+      <!-- ── Security ── -->
       <section class="card security-card">
-        <h2>🔒 Key Security</h2>
+        <h2>Security</h2>
         <ul>
           <li>Keys are stored in <code>chrome.storage.local</code> — on this device only, never synced to the cloud.</li>
           <li>Keys are only read inside the extension's background process and injected directly into API request headers.</li>
