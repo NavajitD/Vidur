@@ -1,7 +1,10 @@
 /**
  * Vidur content script — CSS injector.
  * Applies and maintains generated CSS, survives SPA navigation.
+ * Guard prevents double-execution when injected programmatically into existing tabs.
  */
+if (window.__vidurActive) throw new Error('Vidur already active');
+window.__vidurActive = true;
 
 const STYLE_ID  = 'vidur-injected-css';
 const ATTR      = 'data-vidur-active';

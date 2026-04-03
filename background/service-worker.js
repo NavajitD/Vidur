@@ -96,6 +96,13 @@ async function handleMessage(message, sender) {
       // Push CSS to the tab (sender.tab is null when called from popup)
       const tabId = message.tabId ?? sender.tab?.id;
       if (tabId) {
+        // Ensure content script is running — it won't be in tabs that were open
+        // before the extension was loaded. The guard in injector.js prevents
+        // double-execution if it's already there.
+        await chrome.scripting.executeScript({
+          target: { tabId },
+          files: ['content/injector.js'],
+        }).catch(() => {});
         chrome.tabs.sendMessage(tabId, { type: MSG.APPLY_CSS, css }).catch(() => {});
       }
 
