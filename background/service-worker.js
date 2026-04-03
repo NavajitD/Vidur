@@ -93,8 +93,8 @@ async function handleMessage(message, sender) {
         referenceUrl: referenceUrl || null,
       });
 
-      // Push CSS to the calling tab
-      const tabId = sender.tab?.id;
+      // Push CSS to the tab (sender.tab is null when called from popup)
+      const tabId = message.tabId ?? sender.tab?.id;
       if (tabId) {
         chrome.tabs.sendMessage(tabId, { type: MSG.APPLY_CSS, css }).catch(() => {});
       }

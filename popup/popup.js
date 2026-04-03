@@ -104,6 +104,7 @@ async function handleRedesign() {
     const res = await chrome.runtime.sendMessage({
       type:         MSG.EXTRACT_AND_REDESIGN,
       domain:       currentDomain,
+      tabId:        tab.id,
       pageProfile:  pageProfile || '{}',
       prompt,
       referenceUrl: $('referenceUrl').value.trim() || null,
